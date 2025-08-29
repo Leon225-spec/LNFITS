@@ -13,6 +13,11 @@
     <!-- Font Awesome for Social Icons and Search Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Define Accent Color */
+        :root {
+            --accent-color: #e53e9a; /* Deep Magenta accent */
+        }
+
         /* Apply Inter font to body and Poppins to headings */
         body {
             font-family: 'Inter', sans-serif;
@@ -200,15 +205,16 @@
             padding-top: 1.5rem;
             border-top: 1px solid #e2e8f0;
         }
+        /* Accent color for social icons in drawer */
+        #mobile-drawer .drawer-social-icons a:hover {
+            color: var(--accent-color) !important;
+        }
 
 
         /* --- DESKTOP NAV HIDING WHEN DRAWER IS OPEN --- */
-        /* This rule set to simply remove the hiding properties */
         @media (min-width: 768px) {
             body.drawer-open #main-navbar {
-                /* Removed: opacity: 0; visibility: hidden; pointer-events: none; */
-                /* The drawer will now just slide over the existing navbar */
-                transition: none; /* Prevent unwanted transition on visibility/opacity if they were implied */
+                transition: none;
             }
         }
 
@@ -231,6 +237,248 @@
                 margin-right: auto !important;
             }
         }
+
+        /* Common article card styling (used in NEWS and STYLE) */
+        .article-card-base {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            transition: transform 0.2s ease-in-out;
+        }
+        .article-card-base:hover {
+            transform: translateY(-4px);
+        }
+        .article-card-base img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .article-card-base:hover img {
+            transform: scale(1.05);
+        }
+        .article-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+        }
+        .article-card-category {
+            position: absolute;
+            top: 1.5rem; /* top-6 */
+            left: 1.5rem; /* left-6 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600; /* font-semibold */
+            color: white;
+            background-color: rgba(0,0,0,0.5); /* bg-black/50 */
+            padding: 0.25rem 0.5rem; /* px-2 py-1 */
+            border-radius: 0.25rem; /* rounded */
+        }
+        .article-card-title {
+            position: absolute;
+            bottom: 4rem; /* bottom-16 */
+            left: 1.5rem; /* left-6 */
+            right: 1.5rem; /* right-6 */
+            color: white;
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            line-height: 1.25; /* leading-tight */
+        }
+        .article-card-author {
+            position: absolute;
+            bottom: 1.5rem; /* bottom-6 */
+            left: 1.5rem; /* left-6 */
+            color: white;
+            font-size: 0.875rem; /* text-sm */
+            opacity: 0.9; /* opacity-90 */
+        }
+
+        /* Secondary card adjustments */
+        .secondary-card-title {
+            font-size: 1.125rem; /* text-lg */
+            bottom: 3rem; /* bottom-12 */
+        }
+        .secondary-card-category {
+            top: 1rem; /* top-4 */
+            left: 1rem; /* left-4 */
+            font-size: 0.75rem; /* text-xs */
+        }
+        .secondary-card-author {
+            bottom: 1rem; /* bottom-4 */
+            left: 1rem; /* left-4 */
+            font-size: 0.75rem; /* text-xs */
+        }
+
+        /* Style Section Specifics */
+        .style-card-title {
+            font-size: 1.125rem; /* text-lg */
+            bottom: 3rem; /* bottom-12 */
+        }
+        .style-card-category {
+            top: 1rem; /* top-4 */
+            left: 1rem; /* left-4 */
+            font-size: 0.75rem; /* text-xs */
+        }
+
+        /* Sneakers Section Specifics */
+        .sneaker-card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white background */
+            padding: 1rem; /* p-4 */
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            transform: translateY(60%); /* Starts partially visible, showing brand and model */
+            transition: transform 0.3s ease-in-out;
+        }
+        .sneaker-card-base:hover .sneaker-card-info {
+            transform: translateY(0); /* Slides all the way up on hover */
+        }
+        .sneaker-card-info .info-visible {
+            /* Styles for the always-visible part of the info block */
+            padding-bottom: 0.5rem;
+        }
+        .sneaker-card-info .info-hidden {
+            /* Styles for the part that slides up */
+            padding-top: 0.5rem;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0; /* Hidden by default */
+        }
+        .sneaker-card-base:hover .info-hidden {
+            opacity: 1; /* Becomes visible on hover */
+        }
+        .sneaker-card-brand {
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            color: #4a5568; /* gray-700 */
+            margin-bottom: 0.25rem;
+        }
+        .sneaker-card-model {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700; /* font-bold */
+            color: #1a202c; /* gray-900 */
+            margin-bottom: 0.5rem;
+        }
+        .sneaker-card-drop-date {
+            font-size: 0.75rem; /* text-xs */
+            color: #718096; /* gray-600 */
+        }
+        .sneaker-card-countdown {
+            font-size: 1rem; /* text-base */
+            font-weight: 600; /* font-semibold */
+            color: #e53e3e; /* red-600 */
+            margin-top: 0.5rem;
+        }
+        .sneaker-card-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem; /* px-4 py-2 */
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: var(--accent-color); /* Using accent color */
+            color: white;
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s ease-in-out;
+        }
+        .sneaker-card-button:hover {
+            background-color: #d1308a; /* Darker accent for hover */
+        }
+
+        /* Culture Section Specifics */
+        .culture-card-title {
+            font-size: 1.125rem; /* text-lg */
+            bottom: 3rem; /* bottom-12 */
+        }
+        .culture-card-category {
+            top: 1rem; /* top-4 */
+            left: 1rem; /* left-4 */
+            font-size: 0.75rem; /* text-xs */
+        }
+        .culture-card-author { /* Reusing secondary-card-author for consistency */
+            bottom: 1rem; /* bottom-4 */
+            left: 1rem; /* left-4 */
+            font-size: 0.75rem; /* text-xs */
+        }
+
+        /* Newsletter & Social CTA */
+        .newsletter-social-cta {
+            background-color: #2d3748; /* bg-gray-800 - softer dark gray */
+            color: white;
+            padding: 4rem 1.5rem; /* py-16, px-6 */
+            text-align: center;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+        }
+        .newsletter-social-cta .input-field {
+            width: 100%;
+            max-width: 400px; /* Limit input width */
+            padding: 0.75rem 1rem; /* px-4 py-2 */
+            border: 1px solid #4a5568; /* gray-700 for contrast */
+            border-radius: 0.375rem; /* rounded-md */
+            background-color: white; /* White background for input */
+            color: #1a202c; /* Dark text in input */
+            font-size: 1.125rem; /* text-lg */
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .newsletter-social-cta .input-field::placeholder {
+            color: #a0aec0; /* gray-500 placeholder */
+        }
+        .newsletter-social-cta .input-field:focus {
+            outline: none;
+            border-color: #6366f1; /* a subtle focus color */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+        }
+        .newsletter-social-cta .subscribe-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem; /* px-6 py-3 */
+            border: 1px solid #e5e7eb; /* Light border for contrast */
+            border-radius: 0.375rem; /* rounded-md */
+            background-color: white; /* White background for button */
+            color: #1a202c; /* Dark text for button */
+            font-size: 1rem; /* text-base */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+        .newsletter-social-cta .subscribe-button:hover {
+            background-color: #f1f5f9; /* A slightly lighter gray on hover */
+            color: #000;
+            border-color: #d1d5db;
+        }
+        .newsletter-social-cta .social-icons-footer {
+            margin-top: 2.5rem; /* mt-10 */
+            gap: 1.5rem; /* space-x-6 */
+        }
+        .newsletter-social-cta .social-icons-footer a {
+            color: white;
+            transition: color 0.2s ease-in-out;
+        }
+        .newsletter-social-cta .social-icons-footer a:hover {
+            color: var(--accent-color); /* Accent color on hover */
+        }
+
+        /* Accent color for main navigation links */
+        .nav-link-accent-hover:hover {
+            color: var(--accent-color);
+        }
+        /* Accent color for "VIEW ALL" buttons */
+        .view-all-button {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        .view-all-button:hover {
+            background-color: #d1308a; /* Darker accent for hover */
+            border-color: #d1308a;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -243,14 +491,14 @@
 
         <div class="drawer-nav-group flex flex-col">
             <!-- Main Nav Elements -->
-            <a href="blog.html" class="uppercase">NEWS</a>
-            <a href="blog.html" class="uppercase">STYLE</a>
-            <a href="blog.html" class="uppercase">SNEAKERS</a>
-            <a href="blog.html" class="uppercase">CULTURE</a>
+            <a href="blog.html" class="uppercase hover:text-gray-900 transition duration-300">NEWS</a>
+            <a href="blog.html" class="uppercase hover:text-gray-900 transition duration-300">STYLE</a>
+            <a href="blog.html" class="uppercase hover:text-gray-900 transition duration-300">SNEAKERS</a>
+            <a href="blog.html" class="uppercase hover:text-gray-900 transition duration-300">CULTURE</a>
             <!-- Footer Nav Elements -->
-            <a href="about.html" class="uppercase">ABOUT</a>
-            <a href="contact.html" class="uppercase">CONTACT</a>
-            <a href="#" class="uppercase">PRIVACY</a>
+            <a href="about.html" class="uppercase hover:text-gray-900 transition duration-300">ABOUT</a>
+            <a href="contact.html" class="uppercase hover:text-gray-900 transition duration-300">CONTACT</a>
+            <a href="#" class="uppercase hover:text-gray-900 transition duration-300">PRIVACY</a>
             <!-- Search Button integrated with nav links -->
             <div class="drawer-search-container">
                 <button class="text-gray-600 hover:text-gray-900 transition duration-300 p-2">
@@ -273,7 +521,7 @@
         <nav id="main-navbar" class="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center relative">
             <!-- Social Icons (Left, hidden on scroll) -->
             <div class="hidden md:flex space-x-4 social-icons-desktop">
-                <a href="#" class="text-gray-600 hover:text-black transition duration-300"><i class="fab fa-x-twitter text-2xl"></i></a>
+                <a href="#" class="text-gray-600 nav-link-accent-hover transition duration-300"><i class="fab fa-x-twitter text-2xl"></i></a>
                 <a href="#" class="text-gray-600 hover:text-[#E4405F] transition duration-300"><i class="fab fa-instagram text-2xl"></i></a>
                 <a href="#" class="text-gray-600 hover:text-[#E60023] transition duration-300"><i class="fab fa-pinterest text-2xl"></i></a>
                 <a href="#" class="text-gray-600 hover:text-[#3B5998] transition duration-300"><i class="fab fa-facebook-f text-2xl"></i></a>
@@ -284,7 +532,7 @@
 
             <!-- Search Icon + Hamburger Menu (Right) -->
             <div class="flex items-center space-x-4 search-burger-desktop">
-                <button class="text-gray-600 hover:text-gray-900 transition duration-300 p-2">
+                <button class="text-gray-600 nav-link-accent-hover transition duration-300 p-2">
                     <i class="fas fa-search text-2xl"></i>
                 </button>
                 <button class="p-2 rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" onclick="toggleMobileMenu()">
@@ -296,28 +544,285 @@
 
             <!-- Nav Elements (Desktop Only) - Initially on a new row, integrates on scroll -->
             <div class="hidden md:flex justify-center space-x-8 nav-links-desktop">
-                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">NEWS</a>
-                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">STYLE</a>
-                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">SNEAKERS</a>
-                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">CULTURE</a>
+                <a href="blog.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">NEWS</a>
+                <a href="blog.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">STYLE</a>
+                <a href="blog.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">SNEAKERS</a>
+                <a href="blog.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">CULTURE</a>
             </div>
         </nav>
     </header>
 
     <main class="py-12">
-        <!-- Content sections will go here -->
-        <div style="height: 1000px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-            Scroll down to see the navbar shrink! (Placeholder content)
-        </div>
+        <!-- Hero Feature (NEWS Spotlight) -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <h2 class="sr-only">NEWS SPOTLIGHT</h2> <!-- Screen reader only title -->
+
+            <!-- Full-width lead article -->
+            <a href="post-detail.html" class="article-card-base h-[450px] md:h-[550px]">
+                <img src="https://images.unsplash.com/photo-1603808051755-a044d081b7a7?q=80&w=2670&auto=format&fit=crop" alt="Featured Article Image">
+                <div class="article-card-overlay"></div>
+                <div class="article-card-category">NEWS SPOTLIGHT</div>
+                <!-- Changed to sentence case for better readability -->
+                <h3 class="article-card-title">
+                    The Latest Drop: Local Brand X 'Vivid Dreams' Collection
+                </h3>
+                <!-- Changed to sentence case for better readability -->
+                <p class="article-card-author">By Leon S. Makumbe</p>
+            </a>
+
+            <!-- Secondary news cards (3-4 in a grid) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                <!-- Secondary Article Card 1 -->
+                <a href="post-detail.html" class="article-card-base h-72">
+                    <img src="https://images.unsplash.com/photo-1621217637827-04c9e8e0d4a9?q=80&w=2670&auto=format&fit=crop" alt="Secondary News Image 1">
+                    <div class="article-card-overlay"></div>
+                    <div class="secondary-card-category">NEWS</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title secondary-card-title">Zimbabwe Streetwear Week Highlights</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author secondary-card-author">By Natasha Ncube</p>
+                </a>
+                <!-- Secondary Article Card 2 -->
+                <a href="post-detail.html" class="article-card-base h-72">
+                    <img src="https://images.unsplash.com/photo-1542299607-e816a1b1836a?q=80&w=2574&auto=format&fit=crop" alt="Secondary News Image 2">
+                    <div class="article-card-overlay"></div>
+                    <div class="secondary-card-category">DROPS</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title secondary-card-title">Upcoming Sneaker Collabs to Watch</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author secondary-card-author">By Kudzaishe Chengeta</p>
+                </a>
+                <!-- Secondary Article Card 3 -->
+                <a href="post-detail.html" class="article-card-base h-72">
+                    <img src="https://images.unsplash.com/photo-1617260029881-893f45c8b746?q=80&w=2670&auto=format&fit=crop" alt="Secondary News Image 3">
+                    <div class="article-card-overlay"></div>
+                    <div class="secondary-card-category">TRENDS</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title secondary-card-title">The Rise of Utility Wear in Street Fashion</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author secondary-card-author">By Chido Maposa</p>
+                </a>
+                <!-- Secondary Article Card 4 (Optional, can be hidden on smaller screens or if only 3 are needed) -->
+                <a href="post-detail.html" class="article-card-base h-72 hidden md:block">
+                    <img src="https://images.unsplash.com/photo-1596462502278-27ddff97f804?q=80&w=2670&auto=format&fit=fit" alt="Secondary News Image 4">
+                    <div class="article-card-overlay"></div>
+                    <div class="secondary-card-category">FEATURES</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title secondary-card-title">Interview with Local Designer: Zimbabwean Street Style</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author secondary-card-author">By Anesu Nyathi</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- STYLE (Trending Fits & Guides) Section -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12 text-left uppercase">STYLE: TRENDING FITS & GUIDES</h2>
+            <div class="flex overflow-x-auto space-x-6 p-6 pb-8 hide-scrollbar snap-x snap-mandatory">
+                <!-- Style Card 1 -->
+                <a href="post-detail.html" class="article-card-base h-[350px] flex-shrink-0 snap-start w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%]">
+                    <img src="https://images.unsplash.com/photo-1523315694248-25f6e804f32a?q=80&w=2574&auto=format&fit=crop" alt="Street style inspiration: Cargo Pants">
+                    <div class="article-card-overlay"></div>
+                    <div class="style-card-category">HOW-TO</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title style-card-title">How to Style Cargo Pants for Any Season</h3>
+                </a>
+                <!-- Style Card 2 -->
+                <a href="post-detail.html" class="article-card-base h-[350px] flex-shrink-0 snap-start w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%]">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=2670&auto=format&fit=crop" alt="Street style inspiration: Oversized Hoodie">
+                    <div class="article-card-overlay"></div>
+                    <div class="style-card-category">TRENDS</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title style-card-title">The Ultimate Guide to Oversized Hoodies</h3>
+                </a>
+                <!-- Style Card 3 -->
+                <a href="post-detail.html" class="article-card-base h-[350px] flex-shrink-0 snap-start w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%]">
+                    <img src="https://images.unsplash.com/photo-1542299607-e816a1b1836a?q=80&w=2574&auto=format&fit=crop" alt="Street style inspiration: Denim Jacket">
+                    <div class="article-card-overlay"></div>
+                    <div class="style-card-category">INSPIRATION</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title style-card-title">Street Style Inspo: Denim Jackets Reimagined</h3>
+                </a>
+                <!-- Style Card 4 -->
+                <a href="post-detail.html" class="article-card-base h-[350px] flex-shrink-0 snap-start w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%]">
+                    <img src="https://images.unsplash.com/photo-1534005888256-d7037f0775d7?q=80&w=2574&auto=format&fit=crop" alt="Street style inspiration: Graphic Tees">
+                    <div class="article-card-overlay"></div>
+                    <div class="style-card-category">GUIDES</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title style-card-title">Mastering the Art of the Graphic Tee</h3>
+                </a>
+            </div>
+            <div class="text-center mt-12">
+                <!-- Applied view-all-button for accent color -->
+                <a href="blog.html?category=style" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm view-all-button transition-colors duration-300 uppercase">
+                    VIEW STYLE GUIDES &rarr;
+                </a>
+            </div>
+        </section>
+
+        <!-- SNEAKERS (Latest Drops) Section -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12 text-left uppercase">SNEAKERS: LATEST DROPS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Sneaker Drop Card 1 - Structure changed for partial visibility -->
+                <a href="post-detail.html" class="sneaker-card-base relative block h-[380px] overflow-hidden rounded-lg shadow-md group">
+                    <img src="https://images.unsplash.com/photo-1552066847-b08e5a7e6b0a?q=80&w=2670&auto=format&fit=crop" alt="Nike Air Max 1 'Sunrise' Sneaker">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    <div class="sneaker-card-info">
+                        <div class="info-visible">
+                            <p class="sneaker-card-brand uppercase">NIKE</p>
+                            <h3 class="sneaker-card-model uppercase">AIR MAX 1 'SUNRISE'</h3>
+                        </div>
+                        <div class="info-hidden">
+                            <p class="sneaker-card-drop-date uppercase">DROP DATE: OCTOBER 28, 2025</p>
+                            <p class="sneaker-card-countdown">COUNTDOWN: 62 DAYS</p>
+                            <button class="sneaker-card-button uppercase">VIEW DROP</button>
+                        </div>
+                    </div>
+                </a>
+                <!-- Sneaker Drop Card 2 - Structure changed for partial visibility -->
+                <a href="post-detail.html" class="sneaker-card-base relative block h-[380px] overflow-hidden rounded-lg shadow-md group">
+                    <img src="https://images.unsplash.com/photo-1620793617195-2c8e2f8d3c50?q=80&w=2670&auto=format&fit=crop" alt="Adidas Forum Low 'Vintage Green' Sneaker">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    <div class="sneaker-card-info">
+                        <div class="info-visible">
+                            <p class="sneaker-card-brand uppercase">ADIDAS</p>
+                            <h3 class="sneaker-card-model uppercase">FORUM LOW 'VINTAGE GREEN'</h3>
+                        </div>
+                        <div class="info-hidden">
+                            <p class="sneaker-card-drop-date uppercase">DROP DATE: NOVEMBER 5, 2025</p>
+                            <p class="sneaker-card-countdown">COUNTDOWN: 70 DAYS</p>
+                            <button class="sneaker-card-button uppercase">VIEW DROP</button>
+                        </div>
+                    </div>
+                </a>
+                <!-- Sneaker Drop Card 3 - Structure changed for partial visibility -->
+                <a href="post-detail.html" class="sneaker-card-base relative block h-[380px] overflow-hidden rounded-lg shadow-md group">
+                    <img src="https://images.unsplash.com/photo-1582234032483-2d2c7b5b7c7b?q=80&w=2670&auto=format&fit=crop" alt="New Balance 2002R 'Protection Pack' Sneaker">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    <div class="sneaker-card-info">
+                        <div class="info-visible">
+                            <p class="sneaker-card-brand uppercase">NEW BALANCE</p>
+                            <h3 class="sneaker-card-model uppercase">2002R 'PROTECTION PACK'</h3>
+                        </div>
+                        <div class="info-hidden">
+                            <p class="sneaker-card-drop-date uppercase">DROP DATE: OCTOBER 15, 2025</p>
+                            <p class="sneaker-card-countdown">COUNTDOWN: 49 DAYS</p>
+                            <button class="sneaker-card-button uppercase">VIEW DROP</button>
+                        </div>
+                    </div>
+                </a>
+                <!-- Sneaker Drop Card 4 - Structure changed for partial visibility -->
+                <a href="post-detail.html" class="sneaker-card-base relative block h-[380px] overflow-hidden rounded-lg shadow-md group">
+                    <img src="https://images.unsplash.com/photo-1600269452121-4f2416e2b11b?q=80&w=2670&auto=format&fit=crop" alt="Jordan 1 Retro High OG 'University Blue' Sneaker">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    <div class="sneaker-card-info">
+                        <div class="info-visible">
+                            <p class="sneaker-card-brand uppercase">JORDAN BRAND</p>
+                            <h3 class="sneaker-card-model uppercase">1 RETRO HIGH OG 'UNIVERSITY BLUE'</h3>
+                        </div>
+                        <div class="info-hidden">
+                            <p class="sneaker-card-drop-date uppercase">DROP DATE: NOVEMBER 18, 2025</p>
+                            <p class="sneaker-card-countdown">COUNTDOWN: 83 DAYS</p>
+                            <button class="sneaker-card-button uppercase">VIEW DROP</button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="text-center mt-12">
+                <!-- Applied view-all-button for accent color -->
+                <a href="blog.html?category=sneakers" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm view-all-button transition-colors duration-300 uppercase">
+                    VIEW ALL DROPS &rarr;
+                </a>
+            </div>
+        </section>
+
+        <!-- CULTURE (Community & Stories) Section -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12 text-left uppercase">CULTURE: COMMUNITY & STORIES</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Culture Card 1 -->
+                <a href="post-detail.html" class="article-card-base h-80">
+                    <img src="https://images.unsplash.com/photo-1542315053-15bb0a26a57c?q=80&w=2574&auto=format&fit=crop" alt="Local Designer Feature">
+                    <div class="article-card-overlay"></div>
+                    <div class="culture-card-category">DESIGNERS</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title culture-card-title">Meet the Zimbabwean Designer Reimagining Streetwear</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author culture-card-author">By Nomsa Moyo</p>
+                </a>
+                <!-- Culture Card 2 -->
+                <a href="post-detail.html" class="article-card-base h-80">
+                    <img src="https://images.unsplash.com/photo-1620793617195-2c8e2f8d3c50?q=80&w=2670&auto=format&fit=crop" alt="Street Art Showcase">
+                    <div class="article-card-overlay"></div>
+                    <div class="culture-card-category">ART & SCENE</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title culture-card-title">Exploring Harare's Vibrant Street Art Scene</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author culture-card-author">By Tino Ndlovu</p>
+                </a>
+                <!-- Culture Card 3 -->
+                <a href="post-detail.html" class="article-card-base h-80">
+                    <img src="https://images.unsplash.com/photo-1596462502278-27ddff97f804?q=80&w=2670&auto=format&fit=crop" alt="Local Music Event">
+                    <div class="article-card-overlay"></div>
+                    <div class="culture-card-category">EVENTS</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title culture-card-title">Recap: The Latest LNFITS Community Block Party</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author culture-card-author">By Chiedza Zulu</p>
+                </a>
+                <!-- Culture Card 4 -->
+                <a href="post-detail.html" class="article-card-base h-80">
+                    <img src="https://images.unsplash.com/photo-1533139360-eb2635a90184?q=80&w=2670&auto=format&fit=crop" alt="Street Photography Interview">
+                    <div class="article-card-overlay"></div>
+                    <div class="culture-card-category">CREATORS</div>
+                    <!-- Changed to sentence case -->
+                    <h3 class="article-card-title culture-card-title">In Conversation with a Leading Street Photographer</h3>
+                    <!-- Changed to sentence case -->
+                    <p class="article-card-author culture-card-author">By Kangai Mafu</p>
+                </a>
+            </div>
+            <div class="text-center mt-12">
+                <!-- Applied view-all-button for accent color -->
+                <a href="blog.html?category=culture" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm view-all-button transition-colors duration-300 uppercase">
+                    VIEW ALL CULTURE &rarr;
+                </a>
+            </div>
+        </section>
+
+        <!-- Newsletter + Social CTA Section -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+            <!-- Background color changed to #2d3748 (gray-800) -->
+            <div class="newsletter-social-cta max-w-3xl mx-auto">
+                <h2 class="text-4xl font-extrabold mb-4 uppercase">STAY AHEAD.</h2>
+                <p class="text-xl font-medium mb-8 uppercase">GET LNFITS IN YOUR INBOX.</p>
+                <form class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <input type="email" placeholder="ENTER YOUR EMAIL"
+                           class="input-field">
+                    <!-- Button background changed to white -->
+                    <button type="submit"
+                            class="subscribe-button uppercase">
+                        SUBSCRIBE
+                    </button>
+                </form>
+                <div class="flex justify-center social-icons-footer">
+                    <a href="#" class="hover:text-gray-400 transition duration-300"><i class="fab fa-x-twitter text-3xl"></i></a>
+                    <a href="#" class="hover:text-[#E4405F] transition duration-300"><i class="fab fa-instagram text-3xl"></i></a>
+                    <a href="#" class="hover:text-[#E60023] transition duration-300"><i class="fab fa-pinterest text-3xl"></i></a>
+                    <a href="#" class="hover:text-[#3B5998] transition duration-300"><i class="fab fa-facebook-f text-3xl"></i></a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 py-8 mt-12 shadow-sm">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
             <div class="flex flex-wrap justify-center space-x-6 mb-4">
-                <a href="about.html" class="text-gray-600 hover:text-gray-900 transition duration-300">About</a>
-                <a href="contact.html" class="text-gray-600 hover:text-gray-900 transition duration-300">Contact</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-300">Privacy</a>
+                <a href="about.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">ABOUT</a>
+                <a href="contact.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">CONTACT</a>
+                <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">PRIVACY</a>
             </div>
             <div class="flex justify-center space-x-6 mb-4">
                 <a href="#" class="text-gray-600 hover:text-black transition duration-300"><i class="fab fa-x-twitter text-xl"></i></a>
@@ -325,7 +830,7 @@
                 <a href="#" class="text-gray-600 hover:text-[#E60023] transition duration-300"><i class="fab fa-pinterest text-xl"></i></a>
                 <a href="#" class="text-gray-600 hover:text-[#3B5998] transition duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
             </div>
-            <p>&copy; 2025 LNFITS – Your World of Style</p>
+            <p>&copy; 2025 LNFITS – YOUR WORLD OF STYLE</p>
         </div>
     </footer>
 
