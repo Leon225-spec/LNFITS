@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNFITS - Your Daily Streetwear Source</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins and Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Social Icons and Search Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Apply Inter font to body and Poppins to headings */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a202c; /* Dark gray for body text */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom styles for rounded corners, following design principles */
+        .rounded-lg { border-radius: 0.5rem; } /* Default Tailwind rounding */
+        .rounded-full { border-radius: 9999px; } /* Full rounding for buttons */
+
+        /* Hide scrollbar for horizontal scroll, but allow scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Custom CSS for the sticky navbar behavior */
+        header {
+            transition: all 0.3s ease-in-out; /* Smooth transition for header */
+        }
+
+        /* Base (unscrolled) state for desktop navigation items within #main-navbar */
+        @media (min-width: 768px) { /* md breakpoint */
+            #main-navbar {
+                flex-direction: row; /* Main items are in a row */
+                flex-wrap: wrap; /* Allow nav links to wrap */
+                justify-content: space-between; /* Space out social and search/burger */
+                align-items: center; /* Vertically align items in the main row */
+                padding-top: 1.5rem; /* py-6 default */
+                padding-bottom: 1.5rem; /* py-6 default */
+            }
+
+            /* Absolute centering for the logo within the main nav bar */
+            #main-navbar .logo-desktop {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10;
+                pointer-events: auto; /* Re-enable pointer events for the logo itself */
+                top: 1.5rem; /* Adjust based on py-6 and element height for visual center */
+            }
+
+            #main-navbar .social-icons-desktop {
+                order: 1; /* Aligns social icons left */
+                flex-shrink: 0;
+            }
+
+            #main-navbar .search-burger-desktop {
+                order: 3; /* Aligns search/burger right */
+                flex-shrink: 0;
+            }
+
+            #main-navbar .nav-links-desktop {
+                order: 4; /* Forces nav links to wrap to the next line */
+                flex-basis: 100%; /* Makes it take full width, forcing wrap */
+                justify-content: center; /* Centers the links on their own line */
+                margin-top: 1rem; /* Space from the top row */
+                padding-top: 1rem; /* Padding for the border */
+                border-top: 1px solid #e5e7eb; /* Adds the horizontal divider */
+                display: flex; /* Ensure it's displayed as flex for centering */
+            }
+        }
+
+
+        /* Scrolled state for the entire header */
+        header.navbar-scrolled {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Ensure shadow is there if not base */
+        }
+
+        /* Scrolled state for the #main-navbar flex container */
+        header.navbar-scrolled #main-navbar {
+            padding-top: 1rem !important; /* py-4 equivalent - more comfortable */
+            padding-bottom: 1rem !important; /* py-4 equivalent - more comfortable */
+            flex-direction: row !important; /* Force all items into a single row */
+            flex-wrap: nowrap !important; /* Prevent wrapping */
+            align-items: center !important; /* Vertically align items */
+            justify-content: flex-start !important; /* Start all items from the left */
+        }
+
+        /* Hide social icons on desktop when scrolled */
+        header.navbar-scrolled .social-icons-desktop {
+            display: none !important;
+        }
+
+        /* Adjust logo for scrolled state - now on the far left */
+        header.navbar-scrolled .logo-desktop {
+            position: static !important; /* Remove absolute positioning */
+            transform: none !important; /* Remove translate */
+            margin-right: 1.5rem !important; /* Space after logo */
+            order: 1 !important; /* Ensure logo is first in the row */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        /* Adjust nav links for scrolled state - centered in the middle */
+        header.navbar-scrolled .nav-links-desktop {
+            display: flex !important; /* Ensure nav links are visible */
+            order: 2 !important; /* Position after logo */
+            padding-top: 0 !important; /* Remove top padding */
+            margin-top: 0 !important; /* Remove top margin */
+            border-top: none !important; /* Remove border */
+            flex-grow: 1 !important; /* Allow links to take available central space */
+            justify-content: center !important; /* Center the links within their own flex container */
+            margin-left: auto !important; /* Push from left to center */
+            margin-right: auto !important; /* Push from right to center */
+            flex-shrink: 1; /* Allow it to shrink if absolutely necessary */
+            min-width: 0; /* Important for flex-shrink on text heavy content */
+        }
+
+        /* Adjust search and burger icons for scrolled state - now on the far right */
+        header.navbar-scrolled .search-burger-desktop {
+            order: 3 !important; /* Position after nav links */
+            margin-left: auto !important; /* Push to the far right */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        /* --- MOBILE DRAWER UNIVERSAL STYLING --- */
+        #mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 75%; /* Adjust as needed */
+            max-width: 320px; /* Max width for larger screens too */
+            height: 100%;
+            background-color: white;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%); /* Start off-screen to the right */
+            transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            visibility: hidden;
+            z-index: 100; /* Ensure it's on top of other content */
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            overflow-y: auto; /* Allow scrolling within the drawer if content is long */
+        }
+
+        #mobile-drawer.is-open {
+            transform: translateX(0); /* Slide into view */
+            visibility: visible;
+        }
+
+        #mobile-drawer .close-button {
+            align-self: flex-end; /* Push to top right */
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        #mobile-drawer .drawer-nav-group {
+            flex-grow: 1; /* Allow this section to take up available space */
+        }
+
+        #mobile-drawer .drawer-nav-group a {
+            display: block;
+            padding: 0.75rem 0;
+            text-align: center;
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 500; /* medium */
+            color: #4a5568; /* gray-700 */
+            border-bottom: 1px solid #e2e8f0; /* gray-200 */
+        }
+
+        #mobile-drawer .drawer-nav-group a:last-of-type {
+            border-bottom: none;
+        }
+
+        #mobile-drawer .drawer-search-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1rem;
+        }
+
+        #mobile-drawer .drawer-social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+
+        /* --- DESKTOP NAV HIDING WHEN DRAWER IS OPEN --- */
+        /* This rule set to simply remove the hiding properties */
+        @media (min-width: 768px) {
+            body.drawer-open #main-navbar {
+                /* Removed: opacity: 0; visibility: hidden; pointer-events: none; */
+                /* The drawer will now just slide over the existing navbar */
+                transition: none; /* Prevent unwanted transition on visibility/opacity if they were implied */
+            }
+        }
+
+        /* --- MOBILE TOP NAVBAR (max-width: 767px) --- */
+        @media (max-width: 767px) {
+            #main-navbar {
+                justify-content: space-between !important;
+                flex-wrap: nowrap !important;
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+            #main-navbar .social-icons-desktop,
+            #main-navbar .nav-links-desktop {
+                display: none !important;
+            }
+            #main-navbar .logo-desktop {
+                position: static !important;
+                transform: none !important;
+                margin-left: 0 !important;
+                margin-right: auto !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Mobile Drawer (Functions universally now) -->
+    <div id="mobile-drawer">
+        <button class="close-button text-gray-500 hover:text-gray-900 transition duration-300" onclick="toggleMobileMenu()">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+
+        <div class="drawer-nav-group flex flex-col">
+            <!-- Main Nav Elements -->
+            <a href="blog.html" class="uppercase">NEWS</a>
+            <a href="blog.html" class="uppercase">STYLE</a>
+            <a href="blog.html" class="uppercase">SNEAKERS</a>
+            <a href="blog.html" class="uppercase">CULTURE</a>
+            <!-- Footer Nav Elements -->
+            <a href="about.html" class="uppercase">ABOUT</a>
+            <a href="contact.html" class="uppercase">CONTACT</a>
+            <a href="#" class="uppercase">PRIVACY</a>
+            <!-- Search Button integrated with nav links -->
+            <div class="drawer-search-container">
+                <button class="text-gray-600 hover:text-gray-900 transition duration-300 p-2">
+                    <i class="fas fa-search text-xl"></i> SEARCH
+                </button>
+            </div>
+        </div>
+
+
+        <div class="drawer-social-icons">
+            <a href="#" class="text-gray-600 hover:text-black transition duration-300"><i class="fab fa-x-twitter text-xl"></i></a>
+            <a href="#" class="text-gray-600 hover:text-[#E4405F] transition duration-300"><i class="fab fa-instagram text-xl"></i></a>
+            <a href="#" class="text-gray-600 hover:text-[#E60023] transition duration-300"><i class="fab fa-pinterest text-xl"></i></a>
+            <a href="#" class="text-gray-600 hover:text-[#3B5998] transition duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
+        </div>
+    </div>
+
+    <!-- Navigation Bar (Main Header) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav id="main-navbar" class="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center relative">
+            <!-- Social Icons (Left, hidden on scroll) -->
+            <div class="hidden md:flex space-x-4 social-icons-desktop">
+                <a href="#" class="text-gray-600 hover:text-black transition duration-300"><i class="fab fa-x-twitter text-2xl"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#E4405F] transition duration-300"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#E60023] transition duration-300"><i class="fab fa-pinterest text-2xl"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#3B5998] transition duration-300"><i class="fab fa-facebook-f text-2xl"></i></a>
+            </div>
+
+            <!-- LNFITS Logo (Center initially on desktop, left on mobile and desktop scrolled) -->
+            <a href="index.html" class="text-2xl font-bold tracking-tight text-gray-900 uppercase logo-desktop whitespace-nowrap">LNFITS</a>
+
+            <!-- Search Icon + Hamburger Menu (Right) -->
+            <div class="flex items-center space-x-4 search-burger-desktop">
+                <button class="text-gray-600 hover:text-gray-900 transition duration-300 p-2">
+                    <i class="fas fa-search text-2xl"></i>
+                </button>
+                <button class="p-2 rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" onclick="toggleMobileMenu()">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Nav Elements (Desktop Only) - Initially on a new row, integrates on scroll -->
+            <div class="hidden md:flex justify-center space-x-8 nav-links-desktop">
+                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">NEWS</a>
+                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">STYLE</a>
+                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">SNEAKERS</a>
+                <a href="blog.html" class="text-gray-600 hover:text-gray-900 transition duration-300 uppercase">CULTURE</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="py-12">
+        <!-- Content sections will go here -->
+        <div style="height: 1000px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            Scroll down to see the navbar shrink! (Placeholder content)
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-8 mt-12 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+            <div class="flex flex-wrap justify-center space-x-6 mb-4">
+                <a href="about.html" class="text-gray-600 hover:text-gray-900 transition duration-300">About</a>
+                <a href="contact.html" class="text-gray-600 hover:text-gray-900 transition duration-300">Contact</a>
+                <a href="#" class="text-gray-600 hover:text-gray-900 transition duration-300">Privacy</a>
+            </div>
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="text-gray-600 hover:text-black transition duration-300"><i class="fab fa-x-twitter text-xl"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#E4405F] transition duration-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#E60023] transition duration-300"><i class="fab fa-pinterest text-xl"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#3B5998] transition duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
+            </div>
+            <p>&copy; 2025 LNFITS – Your World of Style</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            mobileDrawer.classList.toggle('is-open');
+
+            // Toggle a class on the body to allow CSS to control main content visibility/interaction
+            document.body.classList.toggle('drawer-open', mobileDrawer.classList.contains('is-open'));
+
+            // Prevent body scrolling when drawer is open
+            document.body.style.overflow = mobileDrawer.classList.contains('is-open') ? 'hidden' : '';
+        }
+
+        // JavaScript for sticky navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 80) { // Adjust scroll threshold (e.g., 80px) as needed
+                header.classList.add('navbar-scrolled');
+            } else {
+                header.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
