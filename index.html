@@ -9,29 +9,36 @@
     <!-- Google Fonts: Poppins and Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Social Icons and Search Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Define Accent Color */
+        /* Define Accent Color and enhanced gray palette */
         :root {
             --accent-color: #e53e9a; /* Deep Magenta accent */
-            --dark-gray: #1a202c;
-            --medium-gray: #4a5568;
-            --light-gray: #e2e8f0;
+            --dark-gray: #15181a; /* Even darker for strong contrast */
+            --text-gray: #333d47; /* Primary text gray */
+            --medium-gray: #6b7280; /* Secondary text/subtle elements */
+            --light-gray-bg: #f5f7fa; /* Lightest background */
+            --border-light: #e5e7eb; /* Light border color */
+            --header-bg: #ffffff;
         }
 
         /* Apply Inter font to body and Poppins to headings */
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--dark-gray); /* Dark gray for body text */
+            color: var(--text-gray); /* Primary text color */
+            background-color: var(--light-gray-bg); /* Lighter body background */
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Poppins', sans-serif;
+            color: var(--dark-gray); /* Headings use dark gray */
         }
+
         /* Custom styles for rounded corners, following design principles */
         .rounded-lg { border-radius: 0.5rem; } /* Default Tailwind rounding */
         .rounded-xl { border-radius: 0.75rem; } /* Slightly larger rounding for cards */
+        .rounded-2xl { border-radius: 1rem; } /* Even larger rounding for main elements */
         .rounded-full { border-radius: 9999px; } /* Full rounding for buttons */
 
         /* Hide scrollbar for horizontal scroll, but allow scrolling */
@@ -46,6 +53,8 @@
         /* Custom CSS for the sticky navbar behavior */
         header {
             transition: all 0.3s ease-in-out; /* Smooth transition for header */
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-light);
         }
 
         /* Base (unscrolled) state for desktop navigation items within #main-navbar */
@@ -55,8 +64,8 @@
                 flex-wrap: wrap; /* Allow nav links to wrap */
                 justify-content: space-between; /* Space out social and search/burger */
                 align-items: center; /* Vertically align items in the main row */
-                padding-top: 1.5rem; /* py-6 default */
-                padding-bottom: 1.5rem; /* py-6 default */
+                padding-top: 1.25rem; /* py-5 */
+                padding-bottom: 1.25rem; /* py-5 */
             }
 
             /* Absolute centering for the logo within the main nav bar */
@@ -66,7 +75,8 @@
                 transform: translateX(-50%);
                 z-index: 10;
                 pointer-events: auto; /* Re-enable pointer events for the logo itself */
-                top: 1.5rem; /* Adjust based on py-6 and element height for visual center */
+                top: 1.25rem; /* Adjusted for py-5 */
+                font-size: 1.625rem; /* Slightly smaller logo */
             }
 
             #main-navbar .social-icons-desktop {
@@ -83,23 +93,29 @@
                 order: 4; /* Forces nav links to wrap to the next line */
                 flex-basis: 100%; /* Makes it take full width, forcing wrap */
                 justify-content: center; /* Centers the links on their own line */
-                margin-top: 1rem; /* Space from the top row */
-                padding-top: 1rem; /* Padding for the border */
-                border-top: 1px solid var(--light-gray); /* Adds the horizontal divider */
+                margin-top: 0.75rem; /* mt-3 */
+                padding-top: 0.75rem; /* pt-3 */
+                border-top: 1px solid var(--border-light); /* Adds the horizontal divider */
                 display: flex; /* Ensure it's displayed as flex for centering */
+            }
+            #main-navbar .nav-links-desktop a {
+                font-weight: 500; /* Medium weight for nav links */
+                letter-spacing: 0.02em; /* Subtle letter spacing */
+                color: var(--text-gray); /* Default text color */
             }
         }
 
 
         /* Scrolled state for the entire header */
         header.navbar-scrolled {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* More pronounced shadow on scroll */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* More subtle, deeper shadow on scroll */
+            border-bottom-color: transparent; /* Remove border when scrolled */
         }
 
         /* Scrolled state for the #main-navbar flex container */
         header.navbar-scrolled #main-navbar {
-            padding-top: 1rem !important; /* py-4 equivalent - more comfortable */
-            padding-bottom: 1rem !important; /* py-4 equivalent - more comfortable */
+            padding-top: 0.75rem !important; /* py-3 equivalent */
+            padding-bottom: 0.75rem !important; /* py-3 equivalent */
             flex-direction: row !important; /* Force all items into a single row */
             flex-wrap: nowrap !important; /* Prevent wrapping */
             align-items: center !important; /* Vertically align items */
@@ -115,9 +131,10 @@
         header.navbar-scrolled .logo-desktop {
             position: static !important; /* Remove absolute positioning */
             transform: none !important; /* Remove translate */
-            margin-right: 1.5rem !important; /* Space after logo */
+            margin-right: 1.25rem !important; /* Space after logo */
             order: 1 !important; /* Ensure logo is first in the row */
             flex-shrink: 0; /* Prevent shrinking */
+            font-size: 1.5rem; /* Slightly smaller on scroll */
         }
 
         /* Adjust nav links for scrolled state - centered in the middle */
@@ -147,18 +164,18 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 75%; /* Adjust as needed */
+            width: 80%; /* Slightly wider mobile drawer */
             max-width: 320px; /* Max width for larger screens too */
             height: 100%;
-            background-color: white;
-            box-shadow: -8px 0 20px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+            background-color: var(--header-bg);
+            box-shadow: -8px 0 25px rgba(0, 0, 0, 0.2); /* Stronger shadow */
             transform: translateX(100%); /* Start off-screen to the right */
             transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
             visibility: hidden;
             z-index: 100; /* Ensure it's on top of other content */
             display: flex;
             flex-direction: column;
-            padding: 1.5rem;
+            padding: 2rem 1.5rem; /* More generous padding */
             overflow-y: auto; /* Allow scrolling within the drawer if content is long */
         }
 
@@ -169,9 +186,13 @@
 
         #mobile-drawer .close-button {
             align-self: flex-end; /* Push to top right */
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem; /* More space */
             padding: 0.5rem;
             cursor: pointer;
+            color: var(--medium-gray);
+        }
+        #mobile-drawer .close-button:hover {
+            color: var(--dark-gray);
         }
 
         #mobile-drawer .drawer-nav-group {
@@ -180,36 +201,44 @@
 
         #mobile-drawer .drawer-nav-group a {
             display: block;
-            padding: 0.75rem 0;
+            padding: 0.85rem 0; /* Slightly more vertical padding */
             text-align: center;
-            font-size: 1.125rem; /* text-lg */
-            font-weight: 500; /* medium */
-            color: var(--medium-gray); /* gray-700 */
-            border-bottom: 1px solid var(--light-gray); /* gray-200 */
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* semibold */
+            color: var(--dark-gray); /* Darker text for prominence */
+            border-bottom: 1px solid var(--border-light); /* Light border */
+            transition: color 0.2s ease-in-out;
         }
 
         #mobile-drawer .drawer-nav-group a:last-of-type {
             border-bottom: none;
         }
+        #mobile-drawer .drawer-nav-group a:hover {
+            color: var(--accent-color);
+        }
 
         #mobile-drawer .drawer-search-container {
             display: flex;
             justify-content: center;
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--light-gray);
-            padding-bottom: 1rem;
+            margin-top: 2rem; /* More space */
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1.5rem;
         }
 
         #mobile-drawer .drawer-social-icons {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1.75rem; /* More space between icons */
             margin-top: auto;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--light-gray);
+            padding-top: 2rem; /* More padding */
+            border-top: 1px solid var(--border-light);
         }
         /* Accent color for social icons in drawer */
+        #mobile-drawer .drawer-social-icons a {
+            color: var(--medium-gray);
+            font-size: 1.5rem; /* Larger social icons */
+        }
         #mobile-drawer .drawer-social-icons a:hover {
             color: var(--accent-color) !important;
         }
@@ -227,8 +256,8 @@
             #main-navbar {
                 justify-content: space-between !important;
                 flex-wrap: nowrap !important;
-                padding-top: 1.5rem;
-                padding-bottom: 1.5rem;
+                padding-top: 1.25rem; /* py-5 */
+                padding-bottom: 1.25rem; /* py-5 */
             }
             #main-navbar .social-icons-desktop,
             #main-navbar .nav-links-desktop {
@@ -239,6 +268,7 @@
                 transform: none !important;
                 margin-left: 0 !important;
                 margin-right: auto !important;
+                font-size: 1.5rem; /* Consistent smaller size for mobile */
             }
         }
 
@@ -248,12 +278,12 @@
             display: block;
             overflow: hidden;
             border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* More pronounced shadow */
+            transition: transform 0.25s ease-out, box-shadow 0.25s ease-out; /* Slightly longer transition */
         }
         .article-card-base:hover {
-            transform: translateY(-8px); /* More pronounced lift */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08); /* Stronger shadow on hover */
+            transform: translateY(-10px); /* More pronounced lift */
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.2), 0 8px 12px -6px rgba(0, 0, 0, 0.1); /* Stronger shadow on hover */
         }
         .article-card-base img {
             position: absolute;
@@ -261,15 +291,15 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.35s ease-out; /* Smoother image zoom */
         }
         .article-card-base:hover img {
-            transform: scale(1.05);
+            transform: scale(1.06); /* Slightly more zoom */
         }
         .article-card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); /* Deeper gradient */
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); /* Even deeper gradient for pop */
         }
         .article-card-category {
             position: absolute;
@@ -279,108 +309,184 @@
             font-weight: 600; /* font-semibold */
             color: white;
             background-color: var(--accent-color); /* Category tag with accent color */
-            padding: 0.25rem 0.75rem; /* px-3 py-1 */
-            border-radius: 0.25rem; /* rounded */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            letter-spacing: 0.05em; /* Slightly more spaced */
+            padding: 0.3rem 0.8rem; /* Slightly more padding */
+            border-radius: 0.35rem; /* Slightly more rounded */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 0.06em; /* Slightly more spaced */
+            text-transform: uppercase;
         }
         .article-card-title {
             position: absolute;
-            bottom: 4rem; /* bottom-16 */
+            bottom: 4.5rem; /* bottom-18 */
             left: 1.5rem; /* left-6 */
             right: 1.5rem; /* right-6 */
             color: white;
-            font-size: 1.875rem; /* text-3xl */
-            font-weight: 700; /* font-bold */
-            line-height: 1.25; /* leading-tight */
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4); /* Text shadow for pop */
+            font-size: 2rem; /* text-4xl for main card, more impact */
+            font-weight: 800; /* Extra bold for feature */
+            line-height: 1.2; /* Tighter line height */
+            text-shadow: 0 3px 6px rgba(0,0,0,0.5); /* Stronger text shadow */
+            letter-spacing: -0.02em; /* Tighter letter spacing for impact */
         }
         .article-card-author {
             position: absolute;
-            bottom: 1.5rem; /* bottom-6 */
+            bottom: 2rem; /* bottom-8 */
             left: 1.5rem; /* left-6 */
             color: white;
-            font-size: 0.875rem; /* text-sm */
-            opacity: 0.9; /* opacity-90 */
+            font-size: 0.95rem; /* Slightly larger author text */
+            opacity: 0.85; /* Slight decrease in opacity */
+            font-weight: 300; /* Lighter font weight */
         }
 
-        /* Style Section Specifics */
-        .style-card-title {
-            font-size: 1.125rem; /* text-lg */
-            bottom: 3rem; /* bottom-12 */
+        /* Secondary card adjustments */
+        .secondary-card-title {
+            font-size: 1.25rem; /* text-xl */
+            bottom: 3.5rem; /* bottom-14 */
+            font-weight: 700; /* Bold */
+            line-height: 1.3;
         }
-        .style-card-category {
-            top: 1rem; /* top-4 */
-            left: 1rem; /* left-4 */
+        .secondary-card-category {
+            top: 1.25rem; /* top-5 */
+            left: 1.25rem; /* left-5 */
             font-size: 0.75rem; /* text-xs */
         }
-        .horizontal-scroll-container {
-            scroll-snap-type: x mandatory; /* Enable scroll snapping */
+        .secondary-card-author {
+            bottom: 1.25rem; /* bottom-5 */
+            left: 1.25rem; /* left-5 */
+            font-size: 0.8rem; /* text-xs, slightly larger */
         }
-        .horizontal-scroll-item {
-            scroll-snap-align: start; /* Snap items to the start */
+
+        /* --- Main STYLE Grid Layout --- */
+        .main-style-grid {
+            display: grid;
+            gap: 2rem; /* Consistent gap for all breakpoints */
+            margin-bottom: 4rem; /* More space below grid */
+        }
+        @media (min-width: 1024px) { /* lg breakpoint for unique grid */
+            .main-style-grid {
+                grid-template-columns: repeat(4, 1fr); /* 4 columns for desktop */
+                grid-template-rows: auto auto; /* Two rows implicitly */
+                grid-template-areas:
+                    "feature feature card1 card2"
+                    "feature feature card3 card4";
+            }
+            .main-style-grid .featured-style-card {
+                grid-area: feature;
+                height: 600px; /* Taller main article */
+            }
+            .main-style-grid .style-card-1 { grid-area: card1; height: 292px; }
+            .main-style-grid .style-card-2 { grid-area: card2; height: 292px; }
+            .main-style-grid .style-card-3 { grid-area: card3; height: 292px; }
+            .main-style-grid .style-card-4 { grid-area: card4; height: 292px; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) { /* md breakpoint for a 3-column split */
+             .main-style-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns for tablet */
+                grid-template-rows: auto auto auto;
+                grid-template-areas:
+                    "feature feature card1"
+                    "feature feature card2"
+                    "card3 card3 card4"; /* All 4 secondary cards visible */
+                gap: 1.5rem;
+            }
+            .main-style-grid .featured-style-card {
+                grid-area: feature;
+                height: 450px;
+            }
+            .main-style-grid .style-card-1,
+            .main-style-grid .style-card-2,
+            .main-style-grid .style-card-3,
+            .main-style-grid .style-card-4 {
+                height: 217px; /* Adjusted height for secondary items */
+            }
+        }
+        @media (max-width: 767px) { /* Mobile breakpoint */
+            .main-style-grid .featured-style-card {
+                height: 400px;
+            }
+            .main-style-grid .style-card-1,
+            .main-style-grid .style-card-2,
+            .main-style-grid .style-card-3,
+            .main-style-grid .style-card-4 {
+                height: 300px; /* Consistent height for all cards on mobile */
+            }
         }
 
         /* Newsletter & Social CTA */
         .newsletter-social-cta {
-            background-color: var(--dark-gray); /* bg-gray-900 (dark black) */
+            background-color: var(--dark-gray); /* Dark background */
             color: white;
-            padding: 5rem 1.5rem; /* py-20, px-6 - more vertical space */
+            padding: 6rem 1.5rem; /* py-24, px-6 - more vertical space */
             text-align: center;
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            border-radius: 1rem; /* rounded-2xl */
+            box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.3), 0 4px 10px -4px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+        }
+        .newsletter-social-cta .cta-title {
+            font-size: 3rem; /* text-5xl for greater impact */
+            font-weight: 800; /* Extra bold */
+            margin-bottom: 1rem;
+            letter-spacing: -0.04em; /* Tighter for a strong headline */
+        }
+        .newsletter-social-cta .cta-subtitle {
+            font-size: 1.375rem; /* text-2xl */
+            font-weight: 500; /* Medium weight */
+            margin-bottom: 3.5rem; /* More space */
+            letter-spacing: 0.02em; /* Subtle spacing */
+            color: rgba(255,255,255,0.9); /* Slightly off-white */
         }
         .newsletter-social-cta .input-field {
             width: 100%;
-            max-width: 400px; /* Limit input width */
-            padding: 0.75rem 1rem; /* px-4 py-2 */
-            border: 1px solid var(--medium-gray); /* gray-700 for contrast */
-            border-radius: 0.5rem; /* rounded-lg */
+            max-width: 450px; /* Slightly wider input */
+            padding: 1rem 1.25rem; /* px-5 py-4 - more padding */
+            border: 1px solid var(--medium-gray); /* Refined border */
+            border-radius: 0.625rem; /* rounded-xl */
             background-color: white; /* White background for input */
             color: var(--dark-gray); /* Dark text in input */
             font-size: 1.125rem; /* text-lg */
             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle input shadow */
         }
         .newsletter-social-cta .input-field::placeholder {
             color: #a0aec0; /* gray-500 placeholder */
-            letter-spacing: 0.05em;
+            letter-spacing: 0.03em;
+            font-weight: 400;
         }
         .newsletter-social-cta .input-field:focus {
             outline: none;
             border-color: var(--accent-color); /* Focus color with accent */
-            box-shadow: 0 0 0 3px rgba(229, 62, 154, 0.3); /* Soft accent glow */
+            box-shadow: 0 0 0 4px rgba(229, 62, 154, 0.25); /* Stronger, softer accent glow */
         }
         .newsletter-social-cta .subscribe-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem 1.75rem; /* px-7 py-3 - slightly wider */
+            padding: 1rem 2rem; /* px-8 py-4 - larger button */
             border: 1px solid var(--accent-color); /* Accent color border */
-            border-radius: 0.5rem; /* rounded-lg */
+            border-radius: 0.625rem; /* rounded-xl */
             background-color: var(--accent-color); /* Accent color background */
             color: white;
-            font-size: 1rem; /* text-base */
-            font-weight: 500; /* font-medium */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* semibold */
             letter-spacing: 0.05em;
             transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2), 0 2px 5px -2px rgba(0, 0, 0, 0.1); /* Deeper shadow */
         }
         .newsletter-social-cta .subscribe-button:hover {
             background-color: #d1308a; /* Darker accent on hover */
             border-color: #d1308a;
-            box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.35), 0 4px 10px -4px rgba(0, 0, 0, 0.25); /* Stronger shadow on hover */
         }
         .newsletter-social-cta .social-icons-footer {
-            margin-top: 3.5rem; /* mt-14 */
-            gap: 1.75rem; /* space-x-7 */
+            margin-top: 4.5rem; /* mt-18 - more space */
+            gap: 2rem; /* Larger gap */
         }
         .newsletter-social-cta .social-icons-footer a {
-            color: white;
+            color: rgba(255,255,255,0.7); /* Softer white for icons */
             transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            font-size: 2rem; /* Larger social icons */
         }
         .newsletter-social-cta .social-icons-footer a:hover {
             color: var(--accent-color); /* Accent color on hover */
-            transform: translateY(-3px); /* Subtle lift */
+            transform: translateY(-4px); /* More subtle lift */
         }
 
         /* Accent color for main navigation links */
@@ -392,12 +498,16 @@
             background-color: var(--accent-color);
             color: white;
             border-color: var(--accent-color);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Shadow for button */
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2), 0 2px 5px -2px rgba(0, 0, 0, 0.1); /* Deeper shadow */
+            padding: 0.85rem 2.25rem; /* Increased padding */
+            border-radius: 0.625rem; /* rounded-xl */
+            font-weight: 600;
         }
         .view-all-button:hover {
             background-color: #d1308a; /* Darker accent for hover */
             border-color: #d1308a;
-            box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.35), 0 4px 10px -4px rgba(0, 0, 0, 0.25); /* Stronger shadow on hover */
+            transform: translateY(-2px); /* Subtle lift on hover */
         }
     </style>
 </head>
@@ -410,11 +520,10 @@
         </button>
 
         <div class="drawer-nav-group flex flex-col">
-            <!-- Added Home, Style, About, Contact -->
-            <a href="index.html" class="uppercase hover:text-gray-900 transition duration-300">HOME</a>
-            <a href="blog.html?category=style" class="uppercase hover:text-gray-900 transition duration-300">STYLE</a>
-            <a href="about.html" class="uppercase hover:text-gray-900 transition duration-300">ABOUT</a>
-            <a href="contact.html" class="uppercase hover:text-gray-900 transition duration-300">CONTACT</a>
+            <a href="index.html" class="uppercase">HOME</a>
+            <a href="blog.html?category=style" class="uppercase">STYLE</a>
+            <a href="about.html" class="uppercase">ABOUT</a>
+            <a href="contact.html" class="uppercase">CONTACT</a>
             <!-- Search Button integrated with nav links -->
             <div class="drawer-search-container">
                 <button class="text-gray-600 hover:text-gray-900 transition duration-300 p-2">
@@ -443,7 +552,7 @@
             </div>
 
             <!-- LNFITS Logo (Center initially on desktop, left on mobile and desktop scrolled) -->
-            <a href="index.html" class="text-2xl font-bold tracking-tight text-gray-900 uppercase logo-desktop whitespace-nowrap">LNFITS</a>
+            <a href="index.html" class="font-extrabold tracking-tight text-gray-900 uppercase logo-desktop whitespace-nowrap">LNFITS</a>
 
             <!-- Search Icon + Hamburger Menu (Right) -->
             <div class="flex items-center space-x-4 search-burger-desktop">
@@ -459,26 +568,26 @@
 
             <!-- Nav Elements (Desktop Only) - Added Home, About, Contact -->
             <div class="hidden md:flex justify-center space-x-8 nav-links-desktop">
-                <a href="index.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">HOME</a>
-                <a href="blog.html?category=style" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">STYLE</a>
-                <a href="about.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">ABOUT</a>
-                <a href="contact.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">CONTACT</a>
+                <a href="index.html" class="nav-link-accent-hover transition duration-300 uppercase">HOME</a>
+                <a href="blog.html?category=style" class="nav-link-accent-hover transition duration-300 uppercase">STYLE</a>
+                <a href="about.html" class="nav-link-accent-hover transition duration-300 uppercase">ABOUT</a>
+                <a href="contact.html" class="nav-link-accent-hover transition duration-300 uppercase">CONTACT</a>
             </div>
         </nav>
     </header>
 
-    <main class="py-16 lg:py-20">
-        <!-- Main STYLE Content Section (Re-purposed and expanded) -->
+    <main class="py-20 lg:py-28"> <!-- Increased overall main padding for more breathing room -->
+        <!-- Main STYLE Content Section -->
         <section class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-12 text-center uppercase tracking-tight">YOUR DAILY STREETWEAR STYLE GUIDE</h2>
-            <p class="text-xl text-gray-700 text-center max-w-2xl mx-auto mb-16">
+            <h2 class="text-5xl lg:text-6xl font-extrabold text-center uppercase tracking-tighter mb-6 leading-tight">YOUR DAILY STREETWEAR <span class="text-gray-500 font-medium">STYLE GUIDE</span></h2>
+            <p class="text-xl lg:text-2xl text-center max-w-3xl mx-auto mb-20 text-gray-600 font-light leading-relaxed">
                 Discover the freshest fits, essential how-tos, and trend breakdowns to elevate your streetwear game.
                 From timeless classics to the latest drops, we've got your style needs covered.
             </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                <!-- Highlight Feature Card (similar to previous main article, but for Style) -->
-                <a href="post-detail.html" class="article-card-base h-[450px] md:h-[500px] lg:col-span-2">
+            <div class="main-style-grid">
+                <!-- Highlight Feature Card -->
+                <a href="post-detail.html" class="article-card-base featured-style-card">
                     <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=2670&auto=format&fit=crop" alt="Featured Style Article">
                     <div class="article-card-overlay"></div>
                     <div class="article-card-category">FEATURED STYLE</div>
@@ -488,31 +597,46 @@
                     <p class="article-card-author">By LNFITS Editorial Team</p>
                 </a>
 
-                <!-- Smaller Style Cards (3 in total, to fill remaining space) -->
-                <a href="post-detail.html" class="article-card-base h-[450px] md:h-[242px] lg:h-[242px]">
+                <!-- Smaller Style Cards (with specific grid classes) -->
+                <a href="post-detail.html" class="article-card-base style-card-1">
                     <img src="https://images.unsplash.com/photo-1523315694248-25f6e804f32a?q=80&w=2574&auto=format&fit=crop" alt="Cargo Pants Style Guide">
                     <div class="article-card-overlay"></div>
-                    <div class="style-card-category">HOW-TO</div>
+                    <div class="secondary-card-category">HOW-TO</div>
                     <h3 class="article-card-title secondary-card-title">How To Style Cargo Pants For Any Season</h3>
                     <p class="article-card-author secondary-card-author">By John Doe</p>
                 </a>
-                <a href="post-detail.html" class="article-card-base h-[450px] md:h-[242px] lg:h-[242px]">
+                <a href="post-detail.html" class="article-card-base style-card-2">
                     <img src="https://images.unsplash.com/photo-1534005888256-d7037f0775d7?q=80&w=2574&auto=format&fit=crop" alt="Graphic Tees Guide">
                     <div class="article-card-overlay"></div>
-                    <div class="style-card-category">GUIDES</div>
+                    <div class="secondary-card-category">GUIDES</div>
                     <h3 class="article-card-title secondary-card-title">Mastering The Art Of The Graphic Tee</h3>
                     <p class="article-card-author secondary-card-author">By Jane Smith</p>
                 </a>
-                <a href="post-detail.html" class="article-card-base h-[450px] md:h-[242px] lg:h-[242px]">
+                <a href="post-detail.html" class="article-card-base style-card-3">
                     <img src="https://images.unsplash.com/photo-1528704250324-a28a2a7a2a5a?q=80&w=2574&auto=format&fit=crop" alt="Headwear Accessories">
                     <div class="article-card-overlay"></div>
-                    <div class="style-card-category">ACCESSORIES</div>
+                    <div class="secondary-card-category">ACCESSORIES</div>
                     <h3 class="article-card-title secondary-card-title">The Best Streetwear Headwear For Your Fit</h3>
                     <p class="article-card-author secondary-card-author">By Alex M.</p>
                 </a>
+                 <!-- Added more style cards for a richer layout -->
+                <a href="post-detail.html" class="article-card-base style-card-4">
+                    <img src="https://images.unsplash.com/photo-1616781702956-6a09a5b3f12e?q=80&w=2574&auto=format&fit=crop" alt="Streetwear denim guide">
+                    <div class="article-card-overlay"></div>
+                    <div class="secondary-card-category">TRENDS</div>
+                    <h3 class="article-card-title secondary-card-title">Essential Denim Pieces Every Streetwear Fan Needs</h3>
+                    <p class="article-card-author secondary-card-author">By Chris M.</p>
+                </a>
+                 <a href="post-detail.html" class="article-card-base style-card-2">
+                    <img src="https://images.unsplash.com/photo-1589710777161-0b04e67e3a2f?q=80&w=2574&auto=format&fit=crop" alt="Oversized hoodies guide">
+                    <div class="article-card-overlay"></div>
+                    <div class="secondary-card-category">GUIDES</div>
+                    <h3 class="article-card-title secondary-card-title">The Ultimate Guide To Oversized Hoodies</h3>
+                    <p class="article-card-author secondary-card-author">By Sophia L.</p>
+                </a>
             </div>
 
-            <div class="text-center mt-12">
+            <div class="text-center mt-16">
                 <a href="blog.html?category=style" class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-sm view-all-button transition-colors duration-300 uppercase tracking-wide">
                     VIEW ALL STYLE GUIDES &rarr;
                 </a>
@@ -520,10 +644,10 @@
         </section>
 
         <!-- Newsletter + Social CTA Section -->
-        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 lg:mt-24">
-            <div class="newsletter-social-cta max-w-3xl mx-auto">
-                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4 uppercase tracking-tight">STAY AHEAD.</h2>
-                <p class="text-xl lg:text-2xl font-medium mb-10 uppercase tracking-wide">GET LNFITS IN YOUR INBOX.</p>
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-28 lg:mt-36">
+            <div class="newsletter-social-cta max-w-4xl mx-auto rounded-2xl"> <!-- Wider max-width for CTA, rounded-2xl -->
+                <h2 class="cta-title uppercase">STAY AHEAD.</h2>
+                <p class="cta-subtitle uppercase">GET LNFITS IN YOUR INBOX.</p>
                 <form class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <input type="email" placeholder="ENTER YOUR EMAIL"
                            class="input-field">
@@ -544,20 +668,20 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-100 py-10 mt-20 lg:mt-24 shadow-sm">
+    <footer class="bg-white border-t border-gray-100 py-12 mt-28 lg:mt-36 shadow-sm"> <!-- Increased footer padding -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-            <div class="flex flex-wrap justify-center space-x-6 mb-4">
+            <div class="flex flex-wrap justify-center space-x-8 mb-6"> <!-- Increased spacing -->
                 <a href="about.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">ABOUT</a>
                 <a href="contact.html" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">CONTACT</a>
                 <a href="#" class="text-gray-600 nav-link-accent-hover transition duration-300 uppercase">PRIVACY</a>
             </div>
-            <div class="flex justify-center space-x-6 mb-4">
+            <div class="flex justify-center space-x-8 mb-6"> <!-- Increased spacing -->
                 <a href="#" class="text-gray-600 hover:text-black transition duration-300"><i class="fab fa-x-twitter text-xl"></i></a>
                 <a href="#" class="text-gray-600 hover:text-[#E4405F] transition duration-300"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="#" class="text-gray-600 hover:text-[#E60023] transition duration-300"><i class="fab fa-pinterest text-xl"></i></a>
                 <a href="#" class="text-gray-600 hover:text-[#3B5998] transition duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
             </div>
-            <p>&copy; 2025 LNFITS – YOUR WORLD OF STYLE</p>
+            <p class="text-sm text-gray-500 font-light">&copy; 2025 LNFITS – YOUR WORLD OF STYLE</p> <!-- Smaller, lighter copyright -->
         </div>
     </footer>
 
